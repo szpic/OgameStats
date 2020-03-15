@@ -5,6 +5,12 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OgameStats.DataBase;
+using OgameStats.WebserviceConnection.Base;
+using OgameStats.WebserviceConnection.EndPoints;
+using OgameStats.WebserviceConnection.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
 
 namespace OgameStats
 {
@@ -26,7 +32,17 @@ namespace OgameStats
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddTransient<IApiClient, ApiClient>();
+            services.AddTransient<IPlayerEndPoint, PlayersEndPoint>();
+            services.AddTransient<IAlliancesEndPoint, AlliancesEndPoint>();
+            services.AddTransient<IUniverseEndPoint, UniverseEndPoint>();
+
+            //Database
+            services.AddDbContext<OgameStatsContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
