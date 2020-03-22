@@ -37,7 +37,7 @@ namespace OgameStats
             services.AddTransient<IPlayerEndPoint, PlayersEndPoint>();
             services.AddTransient<IAlliancesEndPoint, AlliancesEndPoint>();
             services.AddTransient<IUniverseEndPoint, UniverseEndPoint>();
-
+            services.AddTransient<IScoreEndPoint, ScoreEndPoint>();
             //Database
             services.AddDbContext<OgameStatsContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
